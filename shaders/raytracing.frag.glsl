@@ -83,6 +83,8 @@ Hit intersect(Ray r) {
 // Compute lighting from one light
 vec3 illuminate(vec3 lightPosition, vec3 pos, vec3 wo, Hit h) {
     vec3 wi = lightPosition - pos;
+    Hit lightHit = intersect(Ray(pos, wi));
+    if (lightHit.time != inf) return vec3(0.0);
     vec3 kd = h.material.kd;
     if (h.material.checker) {
         // Checkerboard pattern for the floor
@@ -105,6 +107,7 @@ vec3 calcLighting(vec3 pos, vec3 wo, Hit h) {
     vec3 color = vec3(0.0);
     color += 100.0 * illuminate(vec3(-3.0, 10.0, 0.0), pos, wo, h);
     color += 200000.0 * illuminate(vec3(0.0, 1000.0, 0.0), pos, wo, h);
+    color += 500.0 * illuminate(vec3(19.0, -4.0, 20.0), pos, wo, h);
     return color;
 }
 
